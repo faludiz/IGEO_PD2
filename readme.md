@@ -8,7 +8,7 @@ Mérési jegyzőkönyv és koordináta jegyzék generáló program SurPad és Su
 
 - GIT: https://git-scm.com/
 - Lazarus: https://www.lazarus-ide.org/
-- SQLitie3: https://www.sqlite.org/index.html
+- SQLite3: https://www.sqlite.org/index.html
 - InnoSetup: https://jrsoftware.org/isinfo.php
 
 ## Fordítás
