@@ -1,0 +1,274 @@
+object frmMain: TfrmMain
+  Left = 453
+  Height = 707
+  Top = 143
+  Width = 925
+  Caption = 'IGEO.PD2'
+  ClientHeight = 707
+  ClientWidth = 925
+  OnClose = FormClose
+  OnCreate = FormCreate
+  LCLVersion = '2.2.4.0'
+  object SB: TStatusBar
+    Left = 0
+    Height = 23
+    Top = 684
+    Width = 925
+    Panels = <>
+  end
+  object pcMain: TPageControl
+    Left = 0
+    Height = 684
+    Top = 0
+    Width = 925
+    ActivePage = tsOpt
+    Align = alClient
+    TabIndex = 2
+    TabOrder = 1
+    object tsPts: TTabSheet
+      Caption = 'Koordináta jegyzék'
+      ClientHeight = 656
+      ClientWidth = 917
+      object memPts: TMemo
+        Left = 0
+        Height = 656
+        Top = 0
+        Width = 917
+        Align = alClient
+        Font.CharSet = EASTEUROPE_CHARSET
+        Font.Height = -15
+        Font.Name = 'Courier New'
+        Font.Pitch = fpFixed
+        Font.Quality = fqDraft
+        Lines.Strings = (
+          'Memo1'
+        )
+        ParentFont = False
+        ScrollBars = ssAutoBoth
+        TabOrder = 0
+        WordWrap = False
+      end
+    end
+    object tsFbk: TTabSheet
+      Caption = 'Mérési jegyzőkönyv'
+      ClientHeight = 656
+      ClientWidth = 917
+      object memFbk: TMemo
+        Left = 0
+        Height = 656
+        Top = 0
+        Width = 917
+        Align = alClient
+        Font.CharSet = EASTEUROPE_CHARSET
+        Font.Height = -15
+        Font.Name = 'Courier New'
+        Font.Pitch = fpFixed
+        Font.Quality = fqDraft
+        Lines.Strings = (
+          'Memo1'
+        )
+        ParentFont = False
+        ScrollBars = ssAutoBoth
+        TabOrder = 0
+        WordWrap = False
+      end
+    end
+    object tsOpt: TTabSheet
+      Caption = 'Beállítások'
+      ClientHeight = 656
+      ClientWidth = 917
+      object Panel1: TPanel
+        Left = 0
+        Height = 221
+        Top = 0
+        Width = 917
+        Align = alTop
+        AutoSize = True
+        BevelOuter = bvNone
+        ChildSizing.LeftRightSpacing = 8
+        ChildSizing.TopBottomSpacing = 8
+        ChildSizing.HorizontalSpacing = 8
+        ChildSizing.VerticalSpacing = 8
+        ChildSizing.Layout = cclLeftToRightThenTopToBottom
+        ChildSizing.ControlsPerLine = 2
+        ClientHeight = 221
+        ClientWidth = 917
+        TabOrder = 0
+        object Label1: TLabel
+          Left = 8
+          Height = 23
+          Top = 8
+          Width = 155
+          Caption = 'Felmérő neve:'
+          ParentColor = False
+        end
+        object edtUser: TEdit
+          Left = 171
+          Height = 23
+          Top = 8
+          Width = 100
+          TabOrder = 0
+          Text = 'edtUser'
+        end
+        object Label2: TLabel
+          Left = 8
+          Height = 23
+          Top = 39
+          Width = 155
+          Caption = 'Transzformáció:'
+          ParentColor = False
+        end
+        object edtTransf: TEdit
+          Left = 171
+          Height = 23
+          Top = 39
+          Width = 100
+          TabOrder = 1
+          Text = 'edtTransf'
+        end
+        object Label3: TLabel
+          Left = 8
+          Height = 23
+          Top = 70
+          Width = 155
+          Caption = 'Licenc:'
+          ParentColor = False
+        end
+        object edtLic: TEdit
+          Left = 171
+          Height = 23
+          Top = 70
+          Width = 100
+          TabOrder = 2
+          Text = 'edtLic'
+        end
+        object Label4: TLabel
+          Left = 8
+          Height = 23
+          Top = 101
+          Width = 155
+          Caption = 'Mező elválasztó karater:'
+          ParentColor = False
+        end
+        object cmbSeparator: TComboBox
+          Left = 171
+          Height = 23
+          Top = 101
+          Width = 100
+          ItemHeight = 15
+          ItemIndex = 0
+          Items.Strings = (
+            'vessző'
+            'pontosvessző'
+            'szóköz'
+            'tabulátor'
+          )
+          Style = csDropDownList
+          TabOrder = 3
+          Text = 'vessző'
+        end
+        object cbRenumber: TCheckBox
+          Left = 8
+          Height = 19
+          Top = 132
+          Width = 155
+          Caption = 'Mért pontok átszámozása'
+          TabOrder = 4
+        end
+        object Label5: TLabel
+          Left = 171
+          Height = 19
+          Top = 132
+          Width = 100
+          ParentColor = False
+        end
+        object Label6: TLabel
+          Left = 8
+          Height = 23
+          Top = 159
+          Width = 155
+          Caption = 'Kezdő pontszám:'
+          ParentColor = False
+        end
+        object edtStart: TEdit
+          Left = 171
+          Height = 23
+          Top = 159
+          Width = 100
+          NumbersOnly = True
+          TabOrder = 5
+          Text = 'edtStart'
+        end
+        object Label7: TLabel
+          Left = 8
+          Height = 23
+          Top = 190
+          Width = 155
+          Caption = 'Növekmény:'
+          ParentColor = False
+        end
+        object edtIncrement: TEdit
+          Left = 171
+          Height = 23
+          Top = 190
+          Width = 100
+          NumbersOnly = True
+          TabOrder = 6
+          Text = 'edtIncrement'
+        end
+      end
+      object Panel2: TPanel
+        Left = 0
+        Height = 41
+        Top = 615
+        Width = 917
+        Align = alBottom
+        AutoSize = True
+        BevelOuter = bvNone
+        ChildSizing.LeftRightSpacing = 8
+        ChildSizing.TopBottomSpacing = 8
+        ChildSizing.HorizontalSpacing = 8
+        ChildSizing.VerticalSpacing = 8
+        ChildSizing.Layout = cclLeftToRightThenTopToBottom
+        ChildSizing.ControlsPerLine = 4
+        ClientHeight = 41
+        ClientWidth = 917
+        TabOrder = 1
+        Visible = False
+        object stnSave: TButton
+          Left = 8
+          Height = 25
+          Top = 8
+          Width = 130
+          Caption = 'Beállítások mentése'
+          OnClick = stnSaveClick
+          TabOrder = 0
+        end
+      end
+    end
+  end
+  object Connection: TSQLite3Connection
+    Connected = False
+    LoginPrompt = False
+    KeepConnection = False
+    Transaction = Transaction
+    AlwaysUseBigint = False
+    Left = 48
+    Top = 416
+  end
+  object Transaction: TSQLTransaction
+    Active = False
+    Database = Connection
+    Left = 120
+    Top = 416
+  end
+  object Query: TSQLQuery
+    FieldDefs = <>
+    Database = Connection
+    Transaction = Transaction
+    Params = <>
+    Macros = <>
+    Left = 192
+    Top = 416
+  end
+end
