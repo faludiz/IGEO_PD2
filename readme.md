@@ -2,6 +2,8 @@
 
 Mérési jegyzőkönyv és koordináta jegyzék generáló program SurPad és SurvX terepi adatgyűjtőhöz.
 
+![image](https://user-images.githubusercontent.com/89804084/209412640-538481c0-c152-4149-b1d7-1360a725d2f2.png)
+
 ## Követelmények
 
 - GIT: https://git-scm.com/
