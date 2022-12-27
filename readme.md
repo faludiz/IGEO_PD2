@@ -14,6 +14,7 @@ Mérési jegyzőkönyv és koordináta jegyzék generáló program SurPad és Su
 ## Fordítás
 
 ```terminal
+git clone https://github.com/faludiz/fpc-markdown.git
 git clone https://github.com/faludiz/IGEO_PD2.git
 cd IGEO_PD2
 build.bat
@@ -31,10 +32,14 @@ Telepítőprogramot a **setup/pd_setup_\*.iss** szkript segítségével lehet k�
 - dupla klikk egy PD fájlon: elkészül a mérési jegyzőkönyv és a koordináta jegyzék, amit meg is jelenít
   - mérési jegyzőkönyv: 
     - formátum: [Markdown](https://hu.wikipedia.org/wiki/Markdown)
-	- fájlnév: \*.fbk.md
+	  - fájlnév: \*.fbk.md
+    - formátum: [HTML](https://hu.wikipedia.org/wiki/HTML)
+	  - fájlnév: \*.fbk.html	
   - koordináta jegyzék:
     - formátum: `psz,y,x,z,kód,státusz,hrms,vrms,pdop`
-	- fájlnév: \*.pts.txt
+	  - fájlnév: \*.pts.txt
+	- formátum: [KML](https://hu.wikipedia.org/wiki/Keyhole_Markup_Language)
+	  - fájlnév: \*.pts.kml
 	
 ## Támogatás
 

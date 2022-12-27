@@ -6,13 +6,18 @@ interface
 
 uses
   Classes, SysUtils, SQLite3Conn, SQLDB, DB, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, Grids, ComCtrls, ExtCtrls, mdtablegenerator, inifiles;
+  StdCtrls, Grids, ComCtrls, ExtCtrls, mdtablegenerator, inifiles, MarkdownUtils, MarkdownProcessor;
 
 type
 
   { TfrmMain }
 
   TfrmMain = class(TForm)
+    cbSaveHTML: TCheckBox;
+    cbSaveKML: TCheckBox;
+    edtCSS: TEdit;
+    Label8: TLabel;
+    Label9: TLabel;
     stnSave: TButton;
     cbRenumber: TCheckBox;
     cmbSeparator: TComboBox;
@@ -62,6 +67,9 @@ type
 var
   frmMain: TfrmMain;
 
+const
+  defaultCSS = '<style type="text/css">body { font-family: sans-serif; } table { width: 100%; border-collapse: collapse; } table, th, td { padding: 2px; border: 1px solid black; }</style>';
+
 implementation
 
 {$R *.lfm}
@@ -90,6 +98,9 @@ var
   i,j:integer;
   pnum:integer;
   pinc:integer;
+  md: TMarkdownProcessor;
+  body, html: TStringList;
+  kml: TStringList;
 begin
   memFbk.Clear;
   memPts.Clear;
@@ -295,13 +306,44 @@ begin
   end;
 
   fbk.Add('');
-  fbk.Add('> Létrehozva az IGEO.PD2 v22.12.03 alkalmazással');
-  fbk.Add('> Készítette az INTELLIGEO Kft, https://intelligeo.hu');
+  fbk.Add('> Létrehozva az [IGEO.PD2](https://github.com/faludiz/IGEO_PD2) v22.12.03 alkalmazással');
 
   memFbk.Lines.AddStrings(fbk);
 
+  //md -> html
+  md   := TMarkdownProcessor.createDialect(mdCommonMark);
+  md.UnSafe := True;
+  body := TStringList.Create;
+  body.Text := md.process(memFbk.Text);
+  html := TStringList.Create;
+  html.Add('<!DOCTYPE html>');
+  html.Add('<html lang="hu">');
+  html.Add('<head>');
+  html.Add('<meta charset="utf-8">');
+  html.Add('<meta name="generator" content="igeo.pd2" >');
+  html.Add('<title>Mérési Jegyzőkönyv | '+extractfilename(paramstr(1))+'</title>');
+  html.Add(edtCSS.Text);
+  html.Add('</head>');
+  html.Add('<body>');
+  html.AddStrings(body);
+  html.Add('</body>');
+  html.Add('</html>');
+  md.free;
+
+
   //koordináta jegyzék
   dat.Delimiter:=GetDelimiter;
+  kml:=tstringlist.Create;
+
+  //  kml fejléc
+  kml.Add('<?xml version="1.0" encoding="UTF-8"?>');
+  kml.Add('<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">');
+  kml.Add('<Document>');
+  kml.Add(format('  <name>%s</name>', [extractfilename(paramstr(1))]));
+  kml.Add('  <Folder>');
+  kml.Add('    <name>Pontok</name>');
+  kml.Add('    <open>1</open>');
+
   for i:=0 to pts.Count-1 do begin
     pt.commatext:=pts[i];
     dat.Clear;
@@ -315,10 +357,25 @@ begin
     dat.Add(pt[11]); //vrms
     dat.Add(pt[12]); //pdop
     memPts.lines.Add(dat.DelimitedText);
+
+    //kml
+    kml.Add('  <Placemark>');
+    kml.Add(format('    <name>%s</name>',[  pt[0]  ] ));
+    kml.Add(format('    <description>%s</description>', [ pt[1] ]));
+    kml.Add(format('    <Point><coordinates>%s,%s,%s</coordinates></Point>', [ pt[3], pt[2], pt[4]   ]));
+    kml.Add('  </Placemark>');
+
   end;
+
+  //  kml láb
+  kml.Add('  </Folder>');
+  kml.Add('</Document>');
+  kml.Add('</kml>');
 
   memFbk.Lines.SaveToFile( changefileext(fndb,'.fbk.md') );
   memPts.Lines.SaveToFile( changefileext(fndb,'.pts.txt') );
+  if cbSaveHtml.Checked then html.SaveToFile(changefileext(fndb,'.fbk.html'));
+  if cbSaveKml.Checked then kml.SaveToFile(changefileext(fndb,'.pts.kml'));
 
   Connection.Close();
 
@@ -460,10 +517,13 @@ begin
   ini.WriteBool(application.Title, 'renumber', cbRenumber.Checked);
   ini.WriteString(application.Title, 'start', edtStart.Text);
   ini.WriteString(application.Title, 'increment', edtIncrement.Text);
+  ini.WriteString(application.Title, 'css', edtCSS.Text);
   ini.WriteInteger(application.Title, 'left', self.Left);
   ini.WriteInteger(application.Title, 'top', self.Top);
   ini.WriteInteger(application.Title, 'width', self.Width);
   ini.WriteInteger(application.Title, 'height', self.Height);
+  ini.WriteBool(application.Title,'savehtml',cbSaveHtml.Checked);
+  ini.WriteBool(application.Title, 'savekml', cbSaveKml.Checked);
   ini.Free;
 end;
 
@@ -479,10 +539,13 @@ begin
   cbRenumber.Checked:=ini.ReadBool(application.Title, 'renumber', false);
   edtStart.Text:=ini.ReadString(application.Title, 'start', '2001');
   edtIncrement.Text:=ini.ReadString(application.Title, 'increment', '1');
+  edtCSS.Text:=ini.ReadString(application.Title,'css', defaultCSS);
   self.Left:=ini.ReadInteger(application.Title, 'left', 100);
   self.top:=ini.ReadInteger(application.Title, 'top', 100);
   self.Width:=ini.ReadInteger(application.Title, 'width', 800);
   self.Height:=ini.ReadInteger(application.Title, 'height', 600);
+  cbSaveHtml.Checked:=ini.ReadBool(application.Title, 'savehtml', false);
+  cbSaveKml.Checked:=ini.ReadBool(application.Title, 'savekml', false);
 end;
 
 function TfrmMain.GetDelimiter: char;
