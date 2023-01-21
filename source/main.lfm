@@ -6,6 +6,7 @@ object frmMain: TfrmMain
   Caption = 'IGEO.PD2'
   ClientHeight = 707
   ClientWidth = 925
+  OnActivate = FormActivate
   OnClose = FormClose
   OnCreate = FormCreate
   LCLVersion = '2.2.4.0'
@@ -21,10 +22,11 @@ object frmMain: TfrmMain
     Height = 684
     Top = 0
     Width = 925
-    ActivePage = tsOpt
+    ActivePage = tsPts
     Align = alClient
-    TabIndex = 2
+    TabIndex = 0
     TabOrder = 1
+    OnChange = pcMainChange
     object tsPts: TTabSheet
       Caption = 'Koordináta jegyzék'
       ClientHeight = 656

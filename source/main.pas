@@ -45,8 +45,10 @@ type
     tsFbk: TTabSheet;
     tsOpt: TTabSheet;
     Transaction: TSQLTransaction;
+    procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
+    procedure pcMainChange(Sender: TObject);
     procedure stnSaveClick(Sender: TObject);
   private
     fndb:string;
@@ -124,8 +126,6 @@ begin
 
   tsFbk.TabVisible:=true;
   tsPts.TabVisible:=True;
-
-  pcMain.ActivePage:=tsFbk;
 
   fbk:=tstringlist.Create;
   pts:=tstringlist.Create;
@@ -381,6 +381,13 @@ begin
 
 end;
 
+procedure TfrmMain.pcMainChange(Sender: TObject);
+begin
+  // lap váltáskor az editor legyen aktív
+  if pcMain.ActivePage=tsPts then memPts.SetFocus;
+  if pcMain.ActivePage=tsFbk then memFbk.SetFocus;
+end;
+
 procedure TfrmMain.stnSaveClick(Sender: TObject);
 begin
   SaveOptions;
@@ -390,6 +397,12 @@ procedure TfrmMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   if Connection.Connected then Connection.Close();
   SaveOptions;
+end;
+
+procedure TfrmMain.FormActivate(Sender: TObject);
+begin
+  pcMain.ActivePage:=tsFbk;
+  pcMainChange(Sender);
 end;
 
 procedure TfrmMain.setconnection(const fn: string);
