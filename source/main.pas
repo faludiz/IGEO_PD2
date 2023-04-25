@@ -95,6 +95,7 @@ var
   pt,fbk,pts,dat,baselist:tstringlist;
   gpsid:string;
   base:string;
+  version:string;
   sg:tstringgrid;
   row:integer;
   i,j:integer;
@@ -154,7 +155,8 @@ begin
   fbk.Add('## Szoftver');
   fbk.Add('');
   fbk.Add('- Név:   '#9'SurPad / SurvX');
-  fbk.Add('- Verzió:'#9'%s', [ getversion[0]] );
+  version:=getversion[0];
+  if version <> '' then fbk.Add('- Verzió:'#9'%s', [ version ] );
   fbk.Add('');
   fbk.Add('## Antenna');
   lst:=getantenna;
@@ -306,7 +308,7 @@ begin
   end;
 
   fbk.Add('');
-  fbk.Add('> Létrehozva az [IGEO.PD2](https://github.com/faludiz/IGEO_PD2) v22.12.03 alkalmazással');
+  fbk.Add('> Létrehozva az [IGEO.PD2](https://github.com/faludiz/IGEO_PD2) v23.04.25 alkalmazással');
 
   memFbk.Lines.AddStrings(fbk);
 
@@ -426,7 +428,7 @@ begin
   if q.RecordCount>0 then begin
     result.Add( q.FieldValues['soft_ver'] );
   end else begin
-    result.Add('?');
+    result.Add('');
   end;
   q.Free;
 end;
